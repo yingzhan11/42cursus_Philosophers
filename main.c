@@ -41,6 +41,8 @@ static int parse_input(t_data *data, char **argv)
         data->meals_nbr = ft_atoi(argv[5]);
     else
         data->meals_nbr = -1;
+    if (data->meals_nbr == 0)
+        return (show_error("Too less meals"));
     return (0);
 }
 
@@ -50,17 +52,20 @@ int main(int argc, char **argv)
  
     if (argc == 5 || argc == 6)
     {
-        if (parse_input(&data, argv));
-            return (1);
+        if (parse_input(&data, argv) != 0)
+            return (1); //clean TODO
+        
+        if (init_data(&data) != 0)
+            return (1); //clean TODO
+        
+        if (start_eating(&data) != 0)
+            return (1); //clean TODO
+
         // printf("%i\n", data.philo_nbr);
         // printf("%i\n", data.time_to_die);
         // printf("%i\n", data.time_to_eat);
         // printf("%i\n", data.time_to_sleep);
         // printf("%i\n", data.meals_nbr);
-
-        if (init_data(&data));
-            return (1);
-        // start_eating();
     }
     else
         return (show_error("Wrong number of arguments"));

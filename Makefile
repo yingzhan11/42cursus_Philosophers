@@ -1,7 +1,7 @@
 NAME = philo
 CFLAGS = -Wextra -Wall -Werror -pthread
 
-SRCS = main.c tools.c
+SRCS = init_data.c main.c mutex_handler.c tools.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
