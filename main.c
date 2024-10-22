@@ -60,12 +60,6 @@ int main(int argc, char **argv)
         
         if (start_eating(&data) != 0)
             return (1); //clean TODO
-
-        // printf("%i\n", data.philo_nbr);
-        // printf("%i\n", data.time_to_die);
-        // printf("%i\n", data.time_to_eat);
-        // printf("%i\n", data.time_to_sleep);
-        // printf("%i\n", data.meals_nbr);
     }
     else
         return (show_error("Wrong number of arguments"));
