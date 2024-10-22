@@ -92,6 +92,6 @@ void monitor_philos(t_data *data);
 
 //tools
 int show_error(char *error_info);
-long	passed_time(t_time start);
+long	calculate_time(t_time start);
 
 #endif

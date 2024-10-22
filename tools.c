@@ -6,15 +6,14 @@ int show_error(char *error_info)
     return (-1);
 }
 
-// long calculate_time(long start_time)
-// {
-//     t_time current;
-//     long ret_time;
+long	calculate_time(t_time start)
+{
+	t_time	now;
+	long	elapsed_time;
 
-//     if (gettimeofday(&current, NULL))
-//         return (show_error("fail to gettimeofday"));
-//     ret_time = (current.tv_sec * 1000) + (current.tv_usec / 1000);
-//     if (start_time != 0)
-//         ret_time = ret_time - start_time;
-//     return (ret_time);
-// }
+	if (gettimeofday(&now, NULL) == -1)
+		return (-1);
+	elapsed_time = (now.tv_sec - start.tv_sec) * 1000
+		+ (now.tv_usec - start.tv_usec) / 1000;
+	return (elapsed_time);
+}
