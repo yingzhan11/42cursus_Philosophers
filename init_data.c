@@ -2,7 +2,7 @@
 
 /*偶数philo先拿左边叉子，后拿右边叉子，奇数先右后左
 拿到叉子的philo先吃，其他的会不动，都是从吃开始*/
-void assign_forks(t_philo *philo, t_mtx *forks, int position, int philo_nbr)
+static void assign_forks(t_philo *philo, t_mtx *forks, int position, int philo_nbr)
 {
     philo->left_fork = &forks[position];
     if (position == 0)
@@ -11,7 +11,7 @@ void assign_forks(t_philo *philo, t_mtx *forks, int position, int philo_nbr)
         philo->right_fork = &forks[position - 1];
 }
 
-int philo_init(t_data *data)
+static int philo_init(t_data *data)
 {
     t_philo *philo;
     int i;
@@ -20,7 +20,7 @@ int philo_init(t_data *data)
     while (++i < data->philo_nbr)
     {
         philo = data->philos + i;
-        philo->id = i; // + 1?????
+        philo->id = i;
         philo->meal_count = 0;
         philo->last_eat_time.tv_sec = data->start_time.tv_sec;
         philo->last_eat_time.tv_usec = data->start_time.tv_usec;
@@ -51,7 +51,6 @@ int init_data(t_data *data)
     //inite printer mutex
     if (pthread_mutex_init(&data->printer, NULL) != 0)
         return (show_error("fail to init print mtx"));
-    
     //init philos
     data->philos = malloc(sizeof(t_philo) * data->philo_nbr);
     if (!data->philos)

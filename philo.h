@@ -26,7 +26,6 @@ typedef enum e_state
 {
     READY,
     FULL,
-    DIE,
     OVER,
 } t_state;
 
@@ -82,16 +81,23 @@ int ft_sleeping(t_philo *philo);
 void ft_thinking(t_philo *philo);
 void put_down_forks(t_philo *philo);
 
-//philo tools
-int check_state(t_philo *philo);
-int set_action(t_philo *philo, t_action action);
-void print_info(t_philo *philo, char *info);
-int my_usleep(t_philo *philo, long time);
-
+//monitor
 void monitor_philos(t_data *data);
+
+//get & set
+int get_state(t_philo *philo);
+void set_state(t_philo *philo, t_state state);
+int get_action(t_philo *philo);
+int set_action(t_philo *philo, t_action action);
 
 //tools
 int show_error(char *error_info);
+void print_info(t_philo *philo, char *info);
 long	calculate_time(t_time start);
+int my_usleep(t_philo *philo, long time);
+void stop_all_threads(t_data *data, int thread_nbr);
+
+
+
 
 #endif

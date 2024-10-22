@@ -6,17 +6,23 @@ void put_down_forks(t_philo *philo)
     pthread_mutex_unlock(philo->right_fork);
 }
 
-int pick_up_forks(t_philo *philo)
+static int pick_up_forks(t_philo *philo)
 {
     pthread_mutex_lock(philo->left_fork);
-    if (check_state(philo) == OVER)
+    if (get_state(philo) == OVER)
     {
         pthread_mutex_unlock(philo->left_fork);
         return (-1);
     }
     print_info(philo, "  picks up a fork");
+    if (philo->data->philo_nbr == 1)
+    {
+        my_usleep(philo, philo->data->time_to_die * 2);
+	    pthread_mutex_unlock(philo->right_fork);
+        return (-1);
+    }
     pthread_mutex_lock(philo->right_fork);
-    if (check_state(philo) == OVER)
+    if (get_state(philo) == OVER)
     {
         put_down_forks(philo);
         return (-1);
@@ -39,11 +45,11 @@ int ft_eating(t_philo *philo)
     //put down forks
     put_down_forks(philo);
     //set eat count
-    pthread_mutex_lock(&philo->philo_mtx);
+    // pthread_mutex_lock(&philo->philo_mtx);
     philo->meal_count++;
+    // pthread_mutex_unlock(&philo->philo_mtx);
     if (philo->meal_count == philo->data->meals_nbr)
-        philo->state = FULL;
-    pthread_mutex_unlock(&philo->philo_mtx);
+        set_state(philo, FULL);
     return (0);
 }
 
