@@ -14,7 +14,7 @@ static int pick_up_forks(t_philo *philo)
         pthread_mutex_unlock(philo->left_fork);
         return (-1);
     }
-    print_info(philo, "  picks up a fork");
+    print_info(philo, "has taken a fork");
     if (philo->data->philo_nbr == 1)
     {
         my_usleep(philo, philo->data->time_to_die * 2);
@@ -27,7 +27,7 @@ static int pick_up_forks(t_philo *philo)
         put_down_forks(philo);
         return (-1);
     }
-    print_info(philo, "  picks up two forks");
+    print_info(philo, "has taken a fork");
     return (0);
 }
 
@@ -45,9 +45,9 @@ int ft_eating(t_philo *philo)
     //put down forks
     put_down_forks(philo);
     //set eat count
-    // pthread_mutex_lock(&philo->philo_mtx);
+    pthread_mutex_lock(&philo->philo_mtx);
     philo->meal_count++;
-    // pthread_mutex_unlock(&philo->philo_mtx);
+    pthread_mutex_unlock(&philo->philo_mtx);
     if (philo->meal_count == philo->data->meals_nbr)
         set_state(philo, FULL);
     return (0);

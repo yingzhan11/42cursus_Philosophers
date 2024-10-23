@@ -96,7 +96,7 @@ void print_info(t_philo *philo, char *info);
 long	calculate_time(t_time start);
 int my_usleep(t_philo *philo, long time);
 void stop_all_threads(t_data *data, int thread_nbr);
-
+int clean_all(t_data *data);
 
 
 

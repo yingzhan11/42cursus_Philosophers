@@ -38,11 +38,13 @@ static int parse_input(t_data *data, char **argv)
         || data->time_to_sleep <= 0)
         return (show_error("Wrong time arguments"));
     if (argv[5])
+    {
         data->meals_nbr = ft_atoi(argv[5]);
+        if (data->meals_nbr <= 0)
+            return (show_error("Too less meals"));
+    }
     else
         data->meals_nbr = -1;
-    if (data->meals_nbr == 0)
-        return (show_error("Too less meals"));
     return (0);
 }
 
@@ -53,13 +55,12 @@ int main(int argc, char **argv)
     if (argc == 5 || argc == 6)
     {
         if (parse_input(&data, argv) != 0)
-            return (1); //clean TODO
-        
+            return (1);
         if (init_data(&data) != 0)
-            return (1); //clean TODO
-        
+            return (clean_all(&data));
         if (start_eating(&data) != 0)
-            return (1); //clean TODO
+            return (clean_all(&data));
+        clean_all(&data);
     }
     else
         return (show_error("Wrong number of arguments"));

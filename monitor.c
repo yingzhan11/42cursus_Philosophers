@@ -5,9 +5,9 @@ static int check_die(t_philo *philo)
     long hungry_time;
     t_time last_eat_time;
 
-    // pthread_mutex_lock(&philo->philo_mtx);
+    pthread_mutex_lock(&philo->philo_mtx);
     last_eat_time = philo->last_eat_time;
-    // pthread_mutex_unlock(&philo->philo_mtx);
+    pthread_mutex_unlock(&philo->philo_mtx);
     hungry_time = calculate_time(last_eat_time);
     if (hungry_time == -1)
         return (-1);

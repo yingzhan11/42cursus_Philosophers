@@ -17,7 +17,7 @@ static void *ft_philo(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 	{
 		ft_thinking(philo);
 		my_usleep(philo, philo->data->time_to_eat / 2);
