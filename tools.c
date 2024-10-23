@@ -1,59 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/23 11:43:27 by yzhan             #+#    #+#             */
+/*   Updated: 2024/10/23 11:46:42 by yzhan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int show_error(char *error_info)
+int	ft_atoi(char *str)
 {
-    printf("%s\n", error_info);
-    return (-1);
-}
+	int		i;
+	long	num;
 
-void print_info(t_philo *philo, char *info)
-{
-    long elapsed_time;
-    // char *str;
-
-    if (get_state(philo) == OVER)
-        return ;
-    pthread_mutex_lock(&philo->data->printer);
-    elapsed_time = calculate_time(philo->data->start_time);
-    if (elapsed_time == -1)
-        return ;
-    if (info)
-        printf("%ld %d %s\n", elapsed_time, philo->id + 1, info);
-    else if (philo->action == EATING)
+	i = 0;
+	num = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-        printf("%ld %d is eating\n", elapsed_time, philo->id + 1);
-		//printf(" %i meals\n", philo->meal_count + 1);
+		if (str[i] == '-')
+			return (-1);
+		i++;
 	}
-    else if (philo->action == THINKING)
-        printf("%ld %d is thinking\n", elapsed_time, philo->id + 1);
-    else if (philo->action == SLEEPING)
-        printf("%ld %d is sleeping\n", elapsed_time, philo->id + 1);
-    // printf("%ld philo[%d] %s\n", elapsed_time, philo->id + 1, str);
-    pthread_mutex_unlock(&philo->data->printer);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = (str[i++] - '0') + (num * 10);
+		if (num > INT_MAX)
+			return (-1);
+	}
+	if (str[i] != '\0')
+		return (-1);
+	return ((int)num);
 }
 
 //clean function
-int clean_all(t_data *data)
+int	clean_all(t_data *data)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    //destry mtx: forks, printer, philo mtx
-    if (data->forks)
-    {
-        while (++i < data->philo_nbr)
-            pthread_mutex_destroy(&data->forks[i]);
-        free(data->forks);
-    }
-    pthread_mutex_destroy(&data->printer);
-    i = -1;
-    if (data->philos)
-    {
-        while (++i < data->philo_nbr)
-            pthread_mutex_destroy(&data->philos[i].philo_mtx);
-        free(data->philos);
-    }
-    
-    
-    return (1);
+	i = -1;
+	if (data->forks)
+	{
+		while (++i < data->philo_nbr)
+			pthread_mutex_destroy(&data->forks[i]);
+		free(data->forks);
+	}
+	pthread_mutex_destroy(&data->printer);
+	i = -1;
+	if (data->philos)
+	{
+		while (++i < data->philo_nbr)
+			pthread_mutex_destroy(&data->philos[i].philo_mtx);
+		free(data->philos);
+	}
+	return (1);
+}
+
+int	show_error(char *error_info)
+{
+	printf("%s\n", error_info);
+	return (-1);
+}
+
+void	print_info(t_philo *philo, char *info)
+{
+	long	elapsed_time;
+
+	if (get_state(philo) == OVER)
+		return ;
+	pthread_mutex_lock(&philo->data->printer);
+	elapsed_time = calculate_time(philo->data->start_time);
+	if (elapsed_time == -1)
+		return ;
+	if (info)
+		printf("%ld %d %s\n", elapsed_time, philo->id + 1, info);
+	else if (philo->action == EATING)
+		printf("%ld %d is eating\n", elapsed_time, philo->id + 1);
+	else if (philo->action == THINKING)
+		printf("%ld %d is thinking\n", elapsed_time, philo->id + 1);
+	else if (philo->action == SLEEPING)
+		printf("%ld %d is sleeping\n", elapsed_time, philo->id + 1);
+	pthread_mutex_unlock(&philo->data->printer);
 }

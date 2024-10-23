@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start_eating.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzhan <yzhan@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/23 11:40:02 by yzhan             #+#    #+#             */
+/*   Updated: 2024/10/23 11:42:48 by yzhan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static void philo_loop(t_philo *philo)
+static void	philo_loop(t_philo *philo)
 {
 	while (get_state(philo) != OVER)
 	{
@@ -12,9 +24,9 @@ static void philo_loop(t_philo *philo)
 	}
 }
 
-static void *ft_philo(void *arg)
+static void	*ft_philo(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
@@ -26,12 +38,11 @@ static void *ft_philo(void *arg)
 	return (NULL);
 }
 
-int start_eating(t_data *data)
+int	start_eating(t_data *data)
 {
-	int i;
-	pthread_t thread;
+	int			i;
+	pthread_t	thread;
 
-	//thread init
 	i = -1;
 	thread = 0;
 	while (++i < data->philo_nbr)
@@ -43,7 +54,6 @@ int start_eating(t_data *data)
 		}
 		data->philos[i].thread_id = thread;
 	}
-	//monitor
 	monitor_philos(data);
 	return (0);
 }
