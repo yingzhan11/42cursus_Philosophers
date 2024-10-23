@@ -12,12 +12,17 @@
 
 #include "philo.h"
 
+/*unlock forks mutexes*/
 void	put_down_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
 
+/*philo will pick up left_fork first, then the right fork
+check state after picking up a fork, if OVER, unlock the fork
+if there is only one philo, only one fork, just sleep to a time,
+and wait the monitor to end the simulation*/
 int	pick_up_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
@@ -43,6 +48,7 @@ int	pick_up_forks(t_philo *philo)
 	return (0);
 }
 
+/*calculate the elapsed time, unit is ms*/
 long	calculate_time(t_time start)
 {
 	t_time	now;
@@ -55,12 +61,14 @@ long	calculate_time(t_time start)
 	return (elapsed_time);
 }
 
+/*if the simulation end during a philo's eating,
+need to unlock forks the philo picked up*/
 int	my_usleep(t_philo *philo, long time)
 {
-	t_time	this_start;
+	t_time	now;
 	long	elapsed_time;
 
-	if (gettimeofday(&(this_start), NULL) == -1)
+	if (gettimeofday(&(now), NULL) == -1)
 		return (-1);
 	elapsed_time = 0;
 	while (elapsed_time < time)
@@ -72,13 +80,15 @@ int	my_usleep(t_philo *philo, long time)
 				put_down_forks(philo);
 			return (-1);
 		}
-		elapsed_time = calculate_time(this_start);
+		elapsed_time = calculate_time(now);
 		if (elapsed_time == -1)
 			return (-1);
 	}
 	return (0);
 }
 
+/*if any error or simulation end,
+set all philos state to OVER, and close all threads*/
 void	stop_all_threads(t_data *data, int thread_nbr)
 {
 	int	i;

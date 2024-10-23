@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+/*get current state of the philo*/
 int	get_state(t_philo *philo)
 {
 	int	state;
@@ -22,6 +23,7 @@ int	get_state(t_philo *philo)
 	return (state);
 }
 
+/*set a new state to philo*/
 void	set_state(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&philo->philo_mtx);
@@ -29,6 +31,7 @@ void	set_state(t_philo *philo, t_state state)
 	pthread_mutex_unlock(&philo->philo_mtx);
 }
 
+/*get current action of the philo*/
 int	get_action(t_philo *philo)
 {
 	int	action;
@@ -39,6 +42,8 @@ int	get_action(t_philo *philo)
 	return (action);
 }
 
+/*set a new action to philo, and print info
+if the action is eating, record the time to last_eat_time*/
 int	set_action(t_philo *philo, t_action action)
 {
 	pthread_mutex_lock(&philo->philo_mtx);

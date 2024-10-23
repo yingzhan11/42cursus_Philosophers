@@ -12,6 +12,8 @@
 
 #include "philo.h"
 
+/*philo's life cycle,
+state OVER means this thread is already closed*/
 static void	philo_loop(t_philo *philo)
 {
 	while (get_state(philo) != OVER)
@@ -24,12 +26,15 @@ static void	philo_loop(t_philo *philo)
 	}
 }
 
+/*function be execute inside each thread
+odd ID philos, like 1, 3, 5 will start with thinking,
+then go to the normal loop, this is to avoid a fork race*/
 static void	*ft_philo(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
 		ft_thinking(philo);
 		my_usleep(philo, philo->data->time_to_eat / 2);
@@ -38,6 +43,7 @@ static void	*ft_philo(void *arg)
 	return (NULL);
 }
 
+/*create threads for each philo and monitor their state*/
 int	start_eating(t_data *data)
 {
 	int			i;

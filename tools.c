@@ -12,6 +12,8 @@
 
 #include "philo.h"
 
+/*valid input input: [spaces][+][0~9] < INT_MAX
+eg. "    +200", "   100", "200"*/
 int	ft_atoi(char *str)
 {
 	int		i;
@@ -38,7 +40,7 @@ int	ft_atoi(char *str)
 	return ((int)num);
 }
 
-//clean function
+/*destroy all mutexes and free memory*/
 int	clean_all(t_data *data)
 {
 	int	i;
@@ -67,6 +69,7 @@ int	show_error(char *error_info)
 	return (-1);
 }
 
+/*print philos action info with mutex*/
 void	print_info(t_philo *philo, char *info)
 {
 	long	elapsed_time;
@@ -78,12 +81,12 @@ void	print_info(t_philo *philo, char *info)
 	if (elapsed_time == -1)
 		return ;
 	if (info)
-		printf("%ld %d %s\n", elapsed_time, philo->id + 1, info);
+		printf("%ld %d %s\n", elapsed_time, philo->id, info);
 	else if (philo->action == EATING)
-		printf("%ld %d is eating\n", elapsed_time, philo->id + 1);
+		printf("%ld %d is eating\n", elapsed_time, philo->id);
 	else if (philo->action == THINKING)
-		printf("%ld %d is thinking\n", elapsed_time, philo->id + 1);
+		printf("%ld %d is thinking\n", elapsed_time, philo->id);
 	else if (philo->action == SLEEPING)
-		printf("%ld %d is sleeping\n", elapsed_time, philo->id + 1);
+		printf("%ld %d is sleeping\n", elapsed_time, philo->id);
 	pthread_mutex_unlock(&philo->data->printer);
 }
