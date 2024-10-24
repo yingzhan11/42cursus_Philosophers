@@ -35,7 +35,7 @@ int	pick_up_forks(t_philo *philo)
 	if (philo->data->philo_nbr == 1)
 	{
 		my_usleep(philo, philo->data->time_to_die * 2);
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (-1);
 	}
 	pthread_mutex_lock(philo->right_fork);
